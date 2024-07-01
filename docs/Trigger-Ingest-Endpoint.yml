@@ -1,0 +1,13 @@
+name: Trigger-Ingest-Endpoint
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  trigger-ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make an HTTP POST request to ingest endpoint
+        run: |
+           curl -X POST https://testing2-9vxf.onrender.com/ingest -H "Content-Type: application/json" -d "{}"

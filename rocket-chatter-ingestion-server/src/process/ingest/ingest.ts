@@ -2,8 +2,10 @@ import cliProgress from "cli-progress"
 import { readdirSync } from "fs"
 import { readFile } from "fs/promises"
 import { Transaction } from "neo4j-driver"
-import { DBNode } from "../core/dbNode"
-import { db, verifyConnectivity } from "../core/neo4j"
+import path from "path"
+
+import { DBNode } from "../../core/dbNode"
+import { db, verifyConnectivity } from "../../core/neo4j"
 
 namespace Helpers {
 	export function prepareProgressBar(total: number) {
@@ -97,13 +99,16 @@ namespace Algorithms {
 	}
 }
 
-export async function insertDataIntoDB(batchSize: number = 50) {
+export async function insertDataIntoDB(
+	embeddingsPath: string,
+	batchSize: number = 50
+) {
 	console.log(await verifyConnectivity())
 
 	console.log("🕒 Inserting")
 
-	const files = readdirSync("./data/embeddings").map(
-		(file) => `./data/embeddings/${file}`
+	const files = readdirSync(embeddingsPath).map((file) =>
+		path.resolve(embeddingsPath, file)
 	)
 	const totalNodes = files.length * batchSize
 

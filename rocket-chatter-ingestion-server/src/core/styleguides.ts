@@ -57,15 +57,14 @@ export async function insertStyleguides() {
 		const node = new DBNode({
 			id: filePath,
 			name: filePath,
-			kind: "File",
 			type: "",
 			code: data,
-			comments: [],
 			filePath: filePath,
 			relations: [],
 			nameEmbeddings: [],
 			codeEmbeddings: [],
 			descriptor: "Styleguide",
+			isFile: true,
 		})
 		const job = transaction.run(node.getDBInsertQuery(), node)
 		jobs.push(job)
