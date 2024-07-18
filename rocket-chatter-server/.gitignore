@@ -1,9 +1,0 @@
-metadata.yml
-
-node_modules/
-*.data.json
-/project/
-.env
-*.txt
-*.log
-*.svg

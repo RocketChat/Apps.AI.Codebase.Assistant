@@ -10,9 +10,12 @@ import {
     UIKitSurfaceType,
 } from "@rocket.chat/apps-engine/definition/uikit";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
+import { DBNode } from "../core/db/db";
+import { Neo4j } from "../core/db/neo4j";
+import { MiniLML6 } from "../core/embeddings/minilml6";
+import { Query } from "../core/query";
 import { getButton, getInputBox } from "../utils/blockBuilders";
 import { handleCommandResponse } from "../utils/handleCommandResponse";
-import { requestServer } from "../utils/requestServer";
 
 export const COMMAND = "rcc-findsimilar";
 export const FIND_SIMILAR_COMMAND_MODAL = "findsimilar-command";
@@ -41,6 +44,23 @@ export async function findSimilarModal(): Promise<IUIKitSurfaceViewParam> {
     };
 }
 
+async function process(http: IHttp, query: string): Promise<DBNode[] | null> {
+    const db = new Neo4j(http);
+    const embeddingModel = new MiniLML6(http);
+
+    const queryVector = await embeddingModel.generate(query);
+    if (!queryVector) return null;
+
+    const similarNodes = await Query.getDBNodesFromVectorQuery(
+        db,
+        "codeEmbeddings",
+        queryVector,
+        0.5
+    );
+
+    return similarNodes;
+}
+
 export async function findSimilarModalSubmitHandler(
     view: IUIKitSurface,
     sender: IUser,
@@ -61,25 +81,21 @@ export async function findSimilarModalSubmitHandler(
         COMMAND
     );
 
-    const res = await requestServer(http, "/findSimilar", { query });
+    const res = await process(http, query);
     if (!res) {
         await sendMessage(
             "❌ Failed to find similar chunks. Please try again later."
         );
         return;
     }
-
-    const data = res as Record<string, any>;
-
-    const codeNodes = data["result"];
-    if (!codeNodes || !codeNodes.length) {
+    if (!res.length) {
         await sendMessage("No similar chunks found.");
         return;
     }
 
     let message = "**Similar chunks found:**\n";
-    for (let i = 0; i < codeNodes.length; i++) {
-        const node = codeNodes[i];
+    for (let i = 0; i < res.length; i++) {
+        const node = res[i];
 
         let codeNodeSegment = "";
         codeNodeSegment += `\n${i + 1}. ${node["filePath"]}\n`;

@@ -1,0 +1,20 @@
+name: Ingest Workflow
+
+on:
+  repository_dispatch:
+    types: [trigger-workflow]
+  workflow_dispatch:
+
+jobs:
+  trigger-ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+      - name: Run Ingestion
+        run: |
+          cd ingestion
+          npm install
+          npm run start
