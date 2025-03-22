@@ -2,72 +2,9 @@ import { readFileSync, readdirSync } from "fs"
 import path from "path"
 import { v4 as uuid } from "uuid"
 
-import { RC_APP_URI } from "../../constants"
-import { DBNode, DBNodeRelation } from "../../core/dbNode"
-import { DevDocDBNodeRelation } from "../../core/devDocDBNode"
-
-namespace Algorithms {
-   export async function purgeDB(): Promise<boolean> {
-      try {
-         const res = await fetch(`${RC_APP_URI}/purgeDB`, {
-            method: "POST",
-            headers: {
-               accept: "application/json",
-               "Content-Type": "application/json",
-            },
-         })
-
-         return res.status === 200
-      } catch (e) {
-         console.log(e)
-         return false
-      }
-   }
-
-   export async function insertBatch(batchID: string, nodes: DBNode[]): Promise<boolean> {
-      let tries = 5
-      while (tries--) {
-         try {
-            const res = await fetch(`${RC_APP_URI}/ingest`, {
-               method: "POST",
-               headers: {
-                  accept: "application/json",
-                  "Content-Type": "application/json",
-               },
-               body: JSON.stringify({ nodes, batchID }),
-            })
-
-            if (res.status !== 200) {
-               console.log(res)
-               return false
-            }
-
-            return true
-            // return res.status === 200
-         } catch (e) {
-            console.log(e)
-         }
-      }
-      return false
-   }
-
-   export async function establishRelations(relations: DBNodeRelation[]): Promise<boolean> {
-      try {
-         const res = await fetch(`${RC_APP_URI}/establishRelations`, {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ relations }),
-         })
-
-         return res.status === 200
-      } catch (e) {
-         console.log(e)
-         return false
-      }
-   }
-}
+import { CodeModel, CodeModelRelation } from "@/models/code"
+import { DocumentationModel, DocumentationModelRelation } from "@/models/devdoc"
+import { purgeDB, insertBatch, establishRelations } from "@/api"
 
 export async function insertDataIntoDB(batchesDirPath: string) {
    console.log("🕒 Inserting")
@@ -76,7 +13,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
 
    // /* Step 1: Empty DB */
    {
-      const success = await Algorithms.purgeDB()
+      const success = await purgeDB()
       if (!success) {
          console.log("❌ Error emptying db")
          return
@@ -89,7 +26,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
    {
       const errorBatches: Set<string> = new Set()
 
-      const relations: (DBNodeRelation | DevDocDBNodeRelation)[] = []
+      const relations: (CodeModelRelation | DocumentationModelRelation)[] = []
 
       // Insert each batch
       let batches: string[][] = []
@@ -100,11 +37,11 @@ export async function insertDataIntoDB(batchesDirPath: string) {
       console.log("🕒 Waiting for batches")
       for (const group of batches) {
          const batchID = uuid()
-         const nodes: DBNode[] = []
+         const nodes: (CodeModel | DocumentationModel)[] = []
 
          for (const file of group) {
             const data = readFileSync(file, "utf-8")
-            nodes.push(...(Object.values(JSON.parse(data)) as DBNode[]))
+            nodes.push(...(Object.values(JSON.parse(data)) as (CodeModel | DocumentationModel)[]))
 
             for (const node of nodes) {
                relations.push(
@@ -117,7 +54,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
             }
          }
 
-         const success = await Algorithms.insertBatch(batchID, nodes)
+         const success = await insertBatch(batchID, nodes)
          if (success) {
             console.log(`📦 ${batchID} inserted`)
          } else {
@@ -135,7 +72,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
       // Establish relations
       const batchSize = 1000
       for (let i = 0; i < relations.length; i += batchSize) {
-         const success = await Algorithms.establishRelations(relations.slice(i, i + batchSize))
+         const success = await establishRelations(relations.slice(i, i + batchSize))
          if (success) {
             console.log(`🔗 Relations established ${i + 1000}/${relations.length}`)
          } else {

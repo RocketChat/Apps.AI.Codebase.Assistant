@@ -1,4 +1,4 @@
-import { DevDocDBNode } from "../../core/devDocDBNode"
+import { DocumentationModel } from "@/models/devdoc"
 
 export type DocumentPageElement_t = {
    id: string
@@ -8,5 +8,5 @@ export type DocumentPageElement_t = {
 }
 
 export interface IDocumentationPage {
-   fetchNodes(): Promise<DevDocDBNode[]>
+   fetchNodes(): Promise<DocumentationModel[]>
 }

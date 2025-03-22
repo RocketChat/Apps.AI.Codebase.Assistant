@@ -1,7 +1,7 @@
 import { exec } from "child_process"
 import { v4 as uuid } from "uuid"
 
-import { REPO_URI } from "./constants"
+import { REPO_URI } from "./core/constants"
 import { Documentation } from "./process/documentation/documentation"
 import { insertDataIntoDB } from "./process/ingest/ingest"
 import { Codebase } from "./process/prepare/codebase"
@@ -27,12 +27,12 @@ async function main() {
    await new Promise((resolve) => setTimeout(resolve, 1000))
    console.clear()
 
-   let tries = 5
+   let tries = 1
    while (tries--) {
       try {
-         const sessionID = uuid()
+         const sessionID = "Rocket.Chat" // uuid()
 
-         await Algorithms.execCommand(`git clone ${REPO_URI} ${sessionID}`)
+         // await Algorithms.execCommand(`git clone ${REPO_URI} ${sessionID}`)
          {
             const codebase = new Codebase(sessionID, new FileProcessor(), 1)
             await codebase.process()
@@ -42,10 +42,11 @@ async function main() {
 
             await insertDataIntoDB(codebase.dataDirPath)
          }
-         await Algorithms.execCommand(`rm -rf ${sessionID}`)
+         // await Algorithms.execCommand(`rm -rf ${sessionID}`)
 
          break
-      } catch {
+      } catch (e) {
+         throw e
          console.error("Retrying", tries)
       }
    }
