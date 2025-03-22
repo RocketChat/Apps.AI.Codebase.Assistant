@@ -1,6 +1,7 @@
 {
    "explorer.fileNesting.enabled": true,
    "explorer.fileNesting.patterns": {
-      "package.json": "package-lock.json, .env, .env.example, .gitignore, .prettierrc, Dockerfile, nodemon.json, tsconfig.json, *.lock, README.md"
+      "package.json": "package-lock.json, .env, .env.example, .gitignore, .prettierrc, Dockerfile, nodemon.json, tsconfig.json, *.lock, README.md",
+      "*.ts": "$(capture).*.ts"
    }
 }
