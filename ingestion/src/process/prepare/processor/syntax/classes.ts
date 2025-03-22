@@ -2,7 +2,7 @@ import { namedTypes } from "ast-types"
 
 import { TreeNode } from "../core/treeNode"
 import { TypeArgument } from "../core/typeArgument"
-import { Functions } from "./functions"
+import { Functions } from "../syntax/functions"
 
 export namespace Classes {
    export function Handle(n: namedTypes.ClassDeclaration) {

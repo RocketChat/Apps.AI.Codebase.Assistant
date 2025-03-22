@@ -1,4 +1,4 @@
-import { DocumentationModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/models/devdoc"
 
 export type DocumentPageElement_t = {
    id: string

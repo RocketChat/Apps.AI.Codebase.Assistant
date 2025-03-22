@@ -3,7 +3,7 @@ import path from "path"
 import { parse } from "recast"
 import * as tsParser from "recast/parsers/typescript"
 
-import { CodeModel } from "@/lib/models/code"
+import { CodeModel } from "@/models/code"
 import { ISourceFile } from "../sourceFile.types"
 import { IFileProcessor } from "./file.types"
 
@@ -15,7 +15,7 @@ import { Interface } from "./syntax/interface"
 import { Namespaces } from "./syntax/namespaces"
 import { TypeAlias } from "./syntax/typeAlias"
 import { VariableDeclarations } from "./syntax/variableDeclarations"
-import { DocumentationModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/models/devdoc"
 
 export class FileProcessor implements IFileProcessor {
    process(sourceFile: ISourceFile, nodesRef: Record<string, CodeModel | DocumentationModel>): void {

@@ -1,5 +1,5 @@
 import { RC_APP_URI } from "@/core/constants"
-import { CodeModelRelation } from "@/lib/models/code"
+import { CodeModelRelation } from "@/models/code"
 
 export async function establishRelations(relations: CodeModelRelation[]): Promise<boolean> {
    try {

@@ -1,5 +1,5 @@
-import { CodeModel } from "@/lib/models/code"
-import { DocumentationModel } from "@/lib/models/devdoc"
+import { CodeModel } from "@/models/code"
+import { DocumentationModel } from "@/models/devdoc"
 import { ISourceFile } from "../sourceFile.types"
 
 export interface IFileProcessor {

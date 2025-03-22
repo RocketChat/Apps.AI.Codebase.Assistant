@@ -3,8 +3,8 @@ import { glob } from "glob"
 import path from "path"
 import { v4 as uuid } from "uuid"
 
-import { CodeModel } from "@/lib/models/code"
-import { DocumentationModel } from "@/lib/models/devdoc"
+import { CodeModel } from "@/models/code"
+import { DocumentationModel } from "@/models/devdoc"
 import { IFileProcessor } from "./processor/file.types"
 import { SourceFile } from "./sourceFile"
 import { ISourceFile } from "./sourceFile.types"
@@ -41,7 +41,7 @@ export class Codebase {
    }
 
    private initializeDataDirectory(removeExisting = false): void {
-      this._dataDirName = "data" || uuid()
+      this._dataDirName = "data" // uuid()
       this._dataDirPath = path.resolve(this._path, this._dataDirName)
 
       /* Handle data directory */

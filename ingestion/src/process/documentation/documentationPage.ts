@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom"
 
 import { customAlphabet } from "nanoid"
-import { DocumentationModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/models/devdoc"
 import { DocumentPageElement_t, IDocumentationPage } from "./documentationPage.types"
 
 export class DocumentationPage implements IDocumentationPage {

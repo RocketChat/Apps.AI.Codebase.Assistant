@@ -2,9 +2,9 @@ import { readFileSync, readdirSync } from "fs"
 import path from "path"
 import { v4 as uuid } from "uuid"
 
-import { CodeModel, CodeModelRelation } from "@/lib/models/code"
-import { DocumentationModel, DocumentationModelRelation } from "@/lib/models/devdoc"
-import { purgeDB, insertBatch, establishRelations } from "@/lib/api"
+import { CodeModel, CodeModelRelation } from "@/models/code"
+import { DocumentationModel, DocumentationModelRelation } from "@/models/devdoc"
+import { purgeDB, insertBatch, establishRelations } from "@/api"
 
 export async function insertDataIntoDB(batchesDirPath: string) {
    console.log("🕒 Inserting")
