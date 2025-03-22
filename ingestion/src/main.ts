@@ -30,7 +30,7 @@ async function main() {
    let tries = 5
    while (tries--) {
       try {
-         const sessionID = "Rocket.Chat" || uuid()
+         const sessionID = "Rocket.Chat" // uuid()
 
          await Algorithms.execCommand(`git clone ${REPO_URI} ${sessionID}`)
          {
