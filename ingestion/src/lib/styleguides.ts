@@ -1,7 +1,5 @@
 import { writeFileSync } from "fs"
-import { CodeModel } from "./models/code"
-import { db } from "./neo4j"
-import { Styleguides } from "./styleguides.types"
+import { StyleguideModel } from "./models/styleguide"
 
 const links = [
    "https://github.com/RocketChat/Rocket.Chat/raw/develop/.prettierrc",
@@ -24,7 +22,7 @@ const links = [
    "https://github.com/RocketChat/Rocket.Chat/raw/develop/tsconfig.base.server.json",
 ]
 
-let styleguides: Styleguides = {}
+let styleguides: Record<string, string> = {}
 
 async function fetchStyleguide(url: string) {
    const res = await fetch(url)
@@ -33,7 +31,7 @@ async function fetchStyleguide(url: string) {
    styleguides[filePath] = data
 }
 
-async function fetchStyleguides(): Promise<Styleguides> {
+async function fetchStyleguides(): Promise<Record<string, string>> {
    await Promise.all(links.map(fetchStyleguide))
    const result = { ...styleguides }
    styleguides = {}
@@ -54,17 +52,16 @@ export async function insertStyleguides() {
 
    const jobs = []
    for (const [filePath, data] of Object.entries(styleguides)) {
-      const node = new CodeModel({
+      const node = new StyleguideModel({
          id: filePath,
          name: filePath,
-         type: "",
-         code: data,
          filePath: filePath,
+         content: data,
          relations: [],
          nameEmbeddings: [],
          codeEmbeddings: [],
-         descriptor: "Styleguide",
-         isFile: true,
+         contentEmbeddings: [],
+         descriptor: "Styleguide"
       })
       const job = transaction.run(node.getDBInsertQuery(), node)
       jobs.push(job)

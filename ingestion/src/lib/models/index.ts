@@ -16,4 +16,8 @@ export interface EmbeddingsContainer {
    contentEmbeddings?: number[]
 }
 
-export type NodeDescriptor = "Node" | "Documentation" | "Code"
+export type NodeDescriptor = "Node" | "Documentation" | "Code" | "Styleguide"
+
+export * from "./code"
+export * from "./devdoc"
+export * from "./styleguide"
