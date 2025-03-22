@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs"
-import { StyleguideModel } from "./models/styleguide"
+import { StyleguideModel } from "../lib/models/styleguide"
 
 const links = [
    "https://github.com/RocketChat/Rocket.Chat/raw/develop/.prettierrc",
