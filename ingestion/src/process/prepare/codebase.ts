@@ -4,7 +4,7 @@ import path from "path"
 import { v4 as uuid } from "uuid"
 
 import { CodeModel } from "@/lib/models/code"
-import { DevDocModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/lib/models/devdoc"
 import { IFileProcessor } from "./processor/file.types"
 import { SourceFile } from "./sourceFile"
 import { ISourceFile } from "./sourceFile.types"
@@ -70,7 +70,7 @@ export class Codebase {
       this._batches = batches
    }
 
-   private writeNodesToFile(nodes: Record<string, CodeModel | DevDocModel>, fileName: string) {
+   private writeNodesToFile(nodes: Record<string, CodeModel | DocumentationModel>, fileName: string) {
       const entries = Object.entries(nodes)
       if (entries.length === 0) return 0
       const batch = Object.fromEntries(entries)
@@ -84,7 +84,7 @@ export class Codebase {
 
       console.log(`🕒 Processing ${start}-${end} files`)
       {
-         let nodes: Record<string, CodeModel | DevDocModel> = {}
+         let nodes: Record<string, CodeModel | DocumentationModel> = {}
 
          /* Step 1 */
          try {

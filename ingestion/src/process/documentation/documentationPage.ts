@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom"
 
 import { customAlphabet } from "nanoid"
-import { DevDocModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/lib/models/devdoc"
 import { DocumentPageElement_t, IDocumentationPage } from "./documentationPage.types"
 
 export class DocumentationPage implements IDocumentationPage {
@@ -71,8 +71,8 @@ export class DocumentationPage implements IDocumentationPage {
       return parseElements(elements)
    }
 
-   private traverseHierarchy(node: DocumentPageElement_t, devDocsDBNodes: DevDocModel[]): DevDocModel {
-      const devdocNode = new DevDocModel({
+   private traverseHierarchy(node: DocumentPageElement_t, devDocsDBNodes: DocumentationModel[]): DocumentationModel {
+      const devdocNode = new DocumentationModel({
          id: node.id,
          relations: [],
          nameEmbeddings: [],
@@ -99,8 +99,8 @@ export class DocumentationPage implements IDocumentationPage {
       return devdocNode
    }
 
-   private convertHeirarchyToDevDocsDBNodes(hierarchy: DocumentPageElement_t[]): DevDocModel[] {
-      const devDocsDBNodes: DevDocModel[] = []
+   private convertHeirarchyToDevDocsDBNodes(hierarchy: DocumentPageElement_t[]): DocumentationModel[] {
+      const devDocsDBNodes: DocumentationModel[] = []
       for (const node of hierarchy) {
          const devDocDBNode = this.traverseHierarchy(node, devDocsDBNodes)
          devDocsDBNodes.push(devDocDBNode)

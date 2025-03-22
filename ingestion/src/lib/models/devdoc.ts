@@ -1,16 +1,16 @@
 import { BaseNode, BaseRelation, EmbeddingsContainer } from "./types"
 
-export type DevDocModelRelation = BaseRelation
+export type DocumentationModelRelation = BaseRelation
 
-export interface DevDocModelProps extends BaseNode, EmbeddingsContainer {
+export interface DocumentationModelProps extends BaseNode, EmbeddingsContainer {
    url: string
    element: string
    content: string
 }
 
-export class DevDocModel implements DevDocModelProps {
+export class DocumentationModel implements DocumentationModelProps {
    id: string
-   relations: DevDocModelRelation[]
+   relations: DocumentationModelRelation[]
    nameEmbeddings: number[]
    codeEmbeddings: number[]
    contentEmbeddings: number[]
@@ -19,7 +19,7 @@ export class DevDocModel implements DevDocModelProps {
    element: string
    content: string
 
-   constructor(props: DevDocModelProps) {
+   constructor(props: DocumentationModelProps) {
       this.id = props.id
       this.relations = props.relations
       this.nameEmbeddings = props.nameEmbeddings || []

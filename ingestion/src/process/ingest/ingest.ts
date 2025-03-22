@@ -3,7 +3,7 @@ import path from "path"
 import { v4 as uuid } from "uuid"
 
 import { CodeModel, CodeModelRelation } from "@/lib/models/code"
-import { DevDocModel, DevDocModelRelation } from "@/lib/models/devdoc"
+import { DocumentationModel, DocumentationModelRelation } from "@/lib/models/devdoc"
 import { purgeDB, insertBatch, establishRelations } from "@/lib/api"
 
 export async function insertDataIntoDB(batchesDirPath: string) {
@@ -26,7 +26,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
    {
       const errorBatches: Set<string> = new Set()
 
-      const relations: (CodeModelRelation | DevDocModelRelation)[] = []
+      const relations: (CodeModelRelation | DocumentationModelRelation)[] = []
 
       // Insert each batch
       let batches: string[][] = []
@@ -37,11 +37,11 @@ export async function insertDataIntoDB(batchesDirPath: string) {
       console.log("🕒 Waiting for batches")
       for (const group of batches) {
          const batchID = uuid()
-         const nodes: (CodeModel | DevDocModel)[] = []
+         const nodes: (CodeModel | DocumentationModel)[] = []
 
          for (const file of group) {
             const data = readFileSync(file, "utf-8")
-            nodes.push(...(Object.values(JSON.parse(data)) as (CodeModel | DevDocModel)[]))
+            nodes.push(...(Object.values(JSON.parse(data)) as (CodeModel | DocumentationModel)[]))
 
             for (const node of nodes) {
                relations.push(

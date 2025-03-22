@@ -15,10 +15,10 @@ import { Interface } from "./syntax/interface"
 import { Namespaces } from "./syntax/namespaces"
 import { TypeAlias } from "./syntax/typeAlias"
 import { VariableDeclarations } from "./syntax/variableDeclarations"
-import { DevDocModel } from "@/lib/models/devdoc"
+import { DocumentationModel } from "@/lib/models/devdoc"
 
 export class FileProcessor implements IFileProcessor {
-   process(sourceFile: ISourceFile, nodesRef: Record<string, CodeModel | DevDocModel>): void {
+   process(sourceFile: ISourceFile, nodesRef: Record<string, CodeModel | DocumentationModel>): void {
       const fileContent = sourceFile.read()
       const ast = parse(fileContent, {
          parser: tsParser,
