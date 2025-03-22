@@ -1,4 +1,4 @@
-import { RC_APP_URI } from "../../../constants"
+import { RC_APP_URI } from "@/core/constants"
 
 export async function purgeDB(): Promise<boolean> {
    try {

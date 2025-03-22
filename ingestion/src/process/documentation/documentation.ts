@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer"
 
 import { writeFile } from "fs/promises"
-import { DOCUMENTATION_URL } from "../../constants"
+import { DOCUMENTATION_URL } from "../../core/constants"
 import { DocumentationModel } from "../../lib/models/devdoc"
 import { IDocumentation } from "./documentation.types"
 import { DocumentationPage } from "./documentationPage"

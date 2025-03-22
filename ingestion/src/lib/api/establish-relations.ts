@@ -1,7 +1,7 @@
-import { RC_APP_URI } from "../../../constants"
-import { DBNodeRelation } from "../../../core/dbNode"
+import { RC_APP_URI } from "@/core/constants"
+import { CodeModelRelation } from "@/lib/models/code"
 
-export async function establishRelations(relations: DBNodeRelation[]): Promise<boolean> {
+export async function establishRelations(relations: CodeModelRelation[]): Promise<boolean> {
    try {
       const res = await fetch(`${RC_APP_URI}/establishRelations`, {
          method: "POST",

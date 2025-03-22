@@ -1,7 +1,7 @@
 import { exec } from "child_process"
 import { v4 as uuid } from "uuid"
 
-import { REPO_URI } from "./constants"
+import { REPO_URI } from "./core/constants"
 import { Documentation } from "./process/documentation/documentation"
 import { insertDataIntoDB } from "./process/ingest/ingest"
 import { Codebase } from "./process/prepare/codebase"

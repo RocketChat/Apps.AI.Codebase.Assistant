@@ -1,7 +1,7 @@
-import { RC_APP_URI } from "../../../constants"
-import { DBNode } from "../../../core/dbNode"
+import { RC_APP_URI } from "@/core/constants"
+import { CodeModel } from "@/lib/models/code"
 
-export async function insertBatch(batchID: string, nodes: DBNode[]): Promise<boolean> {
+export async function insertBatch(batchID: string, nodes: CodeModel[]): Promise<boolean> {
    let tries = 5
    while (tries--) {
       try {
