@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs"
-import { DBNode } from "./models/db-node"
+import { CodeModel } from "./models/code"
 import { db } from "./neo4j"
 import { Styleguides } from "./styleguides.types"
 
@@ -54,7 +54,7 @@ export async function insertStyleguides() {
 
    const jobs = []
    for (const [filePath, data] of Object.entries(styleguides)) {
-      const node = new DBNode({
+      const node = new CodeModel({
          id: filePath,
          name: filePath,
          type: "",

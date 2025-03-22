@@ -2,7 +2,7 @@ import puppeteer from "puppeteer"
 
 import { writeFile } from "fs/promises"
 import { DOCUMENTATION_URL } from "../../constants"
-import { DevDocDBNode } from "../../core/devDocDBNode"
+import { DevDocModel } from "../../lib/models/devdoc"
 import { IDocumentation } from "./documentation.types"
 import { DocumentationPage } from "./documentationPage"
 
@@ -26,7 +26,7 @@ export class Documentation implements IDocumentation {
       }
    }
 
-   private async prepareDevDocsNodes(): Promise<DevDocDBNode[]> {
+   private async prepareDevDocsNodes(): Promise<DevDocModel[]> {
       const urls = await this.gatherDocumentationLinks()
 
       const docPages = urls.map((x) => new DocumentationPage(x))

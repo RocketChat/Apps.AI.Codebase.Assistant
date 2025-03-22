@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom"
 
 import { customAlphabet } from "nanoid"
-import { DevDocDBNode } from "../../core/devDocDBNode"
+import { DevDocModel } from "@/lib/models/devdoc"
 import { DocumentPageElement_t, IDocumentationPage } from "./documentationPage.types"
 
 export class DocumentationPage implements IDocumentationPage {
@@ -71,22 +71,24 @@ export class DocumentationPage implements IDocumentationPage {
       return parseElements(elements)
    }
 
-   private traverseHierarchy(node: DocumentPageElement_t, devDocsDBNodes: DevDocDBNode[]): DevDocDBNode {
-      const devDocDBNode: DevDocDBNode = {
+   private traverseHierarchy(node: DocumentPageElement_t, devDocsDBNodes: DevDocModel[]): DevDocModel {
+      const devdocNode = new DevDocModel({
          id: node.id,
          relations: [],
+         nameEmbeddings: [],
+         codeEmbeddings: [],
 
          url: this._url,
          element: node.element,
 
          content: node.content || "",
          contentEmbeddings: [],
-      }
+      })
 
       if (node.children) {
          node.children.forEach((child) => {
             const childNode = this.traverseHierarchy(child, devDocsDBNodes)
-            devDocDBNode.relations.push({
+            devdocNode.relations.push({
                target: childNode.id,
                relation: "CONTAINS",
             })
@@ -94,11 +96,11 @@ export class DocumentationPage implements IDocumentationPage {
          })
       }
 
-      return devDocDBNode
+      return devdocNode
    }
 
-   private convertHeirarchyToDevDocsDBNodes(hierarchy: DocumentPageElement_t[]): DevDocDBNode[] {
-      const devDocsDBNodes: DevDocDBNode[] = []
+   private convertHeirarchyToDevDocsDBNodes(hierarchy: DocumentPageElement_t[]): DevDocModel[] {
+      const devDocsDBNodes: DevDocModel[] = []
       for (const node of hierarchy) {
          const devDocDBNode = this.traverseHierarchy(node, devDocsDBNodes)
          devDocsDBNodes.push(devDocDBNode)

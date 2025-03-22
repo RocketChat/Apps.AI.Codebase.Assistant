@@ -15,4 +15,4 @@ export async function purgeDB(): Promise<boolean> {
       console.log(e)
       return false
    }
-} 
+}

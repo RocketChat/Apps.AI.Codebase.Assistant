@@ -16,4 +16,4 @@ export async function establishRelations(relations: DBNodeRelation[]): Promise<b
       console.log(e)
       return false
    }
-} 
+}

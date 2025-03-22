@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from "fs"
 import path from "path"
 import { v4 as uuid } from "uuid"
 
-import { DBNode, DBNodeRelation } from "@/core/dbNode"
-import { DevDocDBNodeRelation } from "@/core/devDocDBNode"
+import { CodeModel, CodeModelRelation } from "@/lib/models/code"
+import { DevDocModel, DevDocModelRelation } from "@/lib/models/devdoc"
 import { purgeDB, insertBatch, establishRelations } from "@/lib/api"
 
 export async function insertDataIntoDB(batchesDirPath: string) {
@@ -26,7 +26,7 @@ export async function insertDataIntoDB(batchesDirPath: string) {
    {
       const errorBatches: Set<string> = new Set()
 
-      const relations: (DBNodeRelation | DevDocDBNodeRelation)[] = []
+      const relations: (CodeModelRelation | DevDocModelRelation)[] = []
 
       // Insert each batch
       let batches: string[][] = []
@@ -37,11 +37,11 @@ export async function insertDataIntoDB(batchesDirPath: string) {
       console.log("🕒 Waiting for batches")
       for (const group of batches) {
          const batchID = uuid()
-         const nodes: DBNode[] = []
+         const nodes: (CodeModel | DevDocModel)[] = []
 
          for (const file of group) {
             const data = readFileSync(file, "utf-8")
-            nodes.push(...(Object.values(JSON.parse(data)) as DBNode[]))
+            nodes.push(...(Object.values(JSON.parse(data)) as (CodeModel | DevDocModel)[]))
 
             for (const node of nodes) {
                relations.push(

@@ -25,4 +25,4 @@ export async function insertBatch(batchID: string, nodes: DBNode[]): Promise<boo
       }
    }
    return false
-} 
+}

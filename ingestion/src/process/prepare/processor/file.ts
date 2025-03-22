@@ -3,7 +3,7 @@ import path from "path"
 import { parse } from "recast"
 import * as tsParser from "recast/parsers/typescript"
 
-import { DBNode } from "../../../core/dbNode"
+import { CodeModel } from "@/lib/models/code"
 import { ISourceFile } from "../sourceFile.types"
 import { IFileProcessor } from "./file.types"
 
@@ -15,9 +15,10 @@ import { Interface } from "./syntax/interface"
 import { Namespaces } from "./syntax/namespaces"
 import { TypeAlias } from "./syntax/typeAlias"
 import { VariableDeclarations } from "./syntax/variableDeclarations"
+import { DevDocModel } from "@/lib/models/devdoc"
 
 export class FileProcessor implements IFileProcessor {
-   process(sourceFile: ISourceFile, nodesRef: Record<string, DBNode>): void {
+   process(sourceFile: ISourceFile, nodesRef: Record<string, CodeModel | DevDocModel>): void {
       const fileContent = sourceFile.read()
       const ast = parse(fileContent, {
          parser: tsParser,
@@ -116,12 +117,12 @@ export class FileProcessor implements IFileProcessor {
             treeNode.body = fileContentLines.slice(startLine, endLine).join("\n").trim()
          }
 
-         const dbNode = DBNode.fromTreeNode(treeNode)
+         const dbNode = CodeModel.fromTreeNode(treeNode)
          nodesRef[dbNode.id] = dbNode
       }
 
       // Create file node
-      const fileNode = new DBNode({
+      const fileNode = new CodeModel({
          id: sourceFile.getFullPath(),
          name: sourceFile.getFullPath(),
          type: "File",
