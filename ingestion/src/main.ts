@@ -27,12 +27,12 @@ async function main() {
    await new Promise((resolve) => setTimeout(resolve, 1000))
    console.clear()
 
-   let tries = 5
+   let tries = 1
    while (tries--) {
       try {
          const sessionID = "Rocket.Chat" // uuid()
 
-         await Algorithms.execCommand(`git clone ${REPO_URI} ${sessionID}`)
+         // await Algorithms.execCommand(`git clone ${REPO_URI} ${sessionID}`)
          {
             const codebase = new Codebase(sessionID, new FileProcessor(), 1)
             await codebase.process()
@@ -42,10 +42,11 @@ async function main() {
 
             await insertDataIntoDB(codebase.dataDirPath)
          }
-         await Algorithms.execCommand(`rm -rf ${sessionID}`)
+         // await Algorithms.execCommand(`rm -rf ${sessionID}`)
 
          break
-      } catch {
+      } catch (e) {
+         throw e
          console.error("Retrying", tries)
       }
    }
