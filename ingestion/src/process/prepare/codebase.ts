@@ -45,7 +45,7 @@ export class Codebase {
 
       /* Handle data directory */
       if (removeExisting && existsSync(this._dataDirPath)) rmSync(this._dataDirPath, { recursive: true })
-      // mkdirSync(this._dataDirPath)
+      mkdirSync(this._dataDirPath)
    }
 
    private prepareFilesMetadata() {
