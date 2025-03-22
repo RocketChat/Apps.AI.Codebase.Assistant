@@ -1,4 +1,4 @@
-import { TreeNode } from "../process/prepare/processor/core/treeNode"
+import { TreeNode } from "../../process/prepare/processor/core/treeNode"
 
 export type DBNodeRelationType = "CONTAINS" | "USES"
 export type DBNodeRelation = { target: string; relation: DBNodeRelationType }

@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs"
-import { DBNode } from "./dbNode"
+import { DBNode } from "./models/db-node"
 import { db } from "./neo4j"
 import { Styleguides } from "./styleguides.types"
 
