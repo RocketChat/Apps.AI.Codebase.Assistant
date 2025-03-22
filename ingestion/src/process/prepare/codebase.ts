@@ -45,8 +45,9 @@ export class Codebase {
       this._dataDirPath = path.resolve(this._path, this._dataDirName)
 
       /* Handle data directory */
-      if (removeExisting && existsSync(this._dataDirPath)) rmSync(this._dataDirPath, { recursive: true })
-      mkdirSync(this._dataDirPath)
+      const exists = existsSync(this._dataDirPath)
+      if (removeExisting && exists) rmSync(this._dataDirPath, { recursive: true })
+      if (!exists) mkdirSync(this._dataDirPath)
    }
 
    private prepareFilesMetadata() {
