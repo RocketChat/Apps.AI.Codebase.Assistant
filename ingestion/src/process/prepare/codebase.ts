@@ -40,7 +40,7 @@ export class Codebase {
    }
 
    private initializeDataDirectory(removeExisting = false): void {
-      this._dataDirName = "data" || uuid()
+      this._dataDirName = uuid()
       this._dataDirPath = path.resolve(this._path, this._dataDirName)
 
       /* Handle data directory */
