@@ -1,4 +1,4 @@
-import { BaseNode, BaseRelation, EmbeddingsContainer } from "./types"
+import { BaseNode, BaseRelation, EmbeddingsContainer } from "."
 
 export type DocumentationModelRelation = BaseRelation
 

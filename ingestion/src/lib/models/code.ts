@@ -1,5 +1,5 @@
 import { TreeNode } from "../../process/prepare/processor/core/treeNode"
-import { BaseNode, BaseRelation, EmbeddingsContainer, NodeDescriptor } from "./types"
+import { BaseNode, BaseRelation, EmbeddingsContainer, NodeDescriptor } from "."
 
 export type CodeModelRelation = BaseRelation
 
