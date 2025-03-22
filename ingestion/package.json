@@ -28,7 +28,7 @@
       "express": "^4.21.1",
       "glob": "^10.4.2",
       "jsdom": "^25.0.0",
-      "nanoid": "^5.0.7",
+      "nanoid": "^5.0.9",
       "neo4j-driver": "4.4.0",
       "openai": "^4.29.2",
       "puppeteer": "^23.3.0",
